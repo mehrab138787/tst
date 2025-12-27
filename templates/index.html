@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>انتخاب هوش مصنوعی | AI Selector</title>
+    <style>
+        body {
+            font-family: Tahoma, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f4f7f6;
+            text-align: center;
+        }
+        .container {
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 30px;
+        }
+        .ai-selector a {
+            text-decoration: none;
+            margin: 15px;
+            display: inline-block;
+        }
+        .ai-button {
+            background-color: #007bff; /* رنگ اصلی */
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            min-width: 250px;
+        }
+        .ai-button:hover {
+            background-color: #0056b3;
+        }
+        .openai {
+            background-color: #10a37f;
+        }
+        .openai:hover {
+            background-color: #0d8364;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>انتخاب کنید با کدام هوش مصنوعی می‌خواهید چت کنید:</h1>
+        <div class="ai-selector">
+            <a href="https://gemini.google.com/" target="_blank" title="سایت اصلی Gemini در یک تب جدید باز می‌شود">
+                <button class="ai-button">چت با Gemini</button>
+            </a>
+
+            <a href="https://chat.openai.com/" target="_blank" title="سایت اصلی ChatGPT در یک تب جدید باز می‌شود">
+                <button class="ai-button openai">چت با ChatGPT</button>
+            </a>
+        </div>
+        <p style="margin-top: 30px; color: #777;">
+            توجه: با کلیک روی هر دکمه، برای چت مستقیم به سایت اصلی منتقل خواهید شد.
+        </p>
+    </div>
+</body>
+</html>
