@@ -1,0 +1,8 @@
+{
+  "app": "10ai",
+  "port": 80,
+  "build": {
+    "location": "iran"
+  },
+  "disks": []
+}
