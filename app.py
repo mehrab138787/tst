@@ -18,5 +18,6 @@ def index():
 
 if __name__ == '__main__':
     # در محیط محلی (Local)، از این دستور استفاده می‌شود.
+    # برای اتصال گوشی (شبکه داخلی)، باید هاست روی 0.0.0.0 تنظیم شود.
     # در Render، Gunicorn از دستور Procfile استفاده می‌کند.
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=5000, debug=True)

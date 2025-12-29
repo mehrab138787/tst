@@ -7,27 +7,12 @@
     <style>
         /* Base Styles and Typography */
         :root {
-            --primary-amber: #e67e22; 
-            --primary-highlight: #ffc93c; 
-            --bg-dark: #1c1510; 
-            --card-dark: #28201a; 
-            --card-bg-gradient: linear-gradient(135deg, #30261f 0%, #28201a 100%); 
-            --text-light: #f5f5f5;
-            --text-muted: #c0c0c0;
-        }
-
-        /* --------------------------- */
-        /* انیمیشن برای ورود روان کارت‌ها */
-        /* --------------------------- */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translate3d(0, 20px, 0); 
-            }
-            to {
-                opacity: 1;
-                transform: translate3d(0, 0, 0);
-            }
+            --primary-blue: #4285f4;
+            --accent-yellow: #f1c40f;
+            --bg-dark: #0f2027;
+            --card-dark: #1e3540; /* Slightly lighter card for better contrast */
+            --text-light: #ecf0f1;
+            --text-muted: #b0c4de;
         }
 
         body {
@@ -38,97 +23,81 @@
             justify-content: flex-start;
             min-height: 100vh;
             margin: 0;
-            
-            /* 1. تنظیمات پس‌زمینه چوبی: */
-            background-color: var(--bg-dark); 
-            
-            /* مسیردهی Flask/Jinja2 برای فایل در پوشه static */
-            background-image: url("{{ url_for('static', filename='dark-wood-texture.jpg') }}");
-            background-size: cover; 
-            background-attachment: fixed; 
-            background-position: center;
-
+            background: linear-gradient(135deg, var(--bg-dark) 0%, #1e3a47 50%, #2c5364 100%); 
             color: var(--text-light);
             padding: 2rem 1rem; 
             line-height: 1.6;
         }
 
-        /* Noctovex Header Styling - نور طلایی/کهربایی */
+        /* Noctovex Header Styling */
         .header-title {
             width: 100%;
-            max-width: 1100px; 
+            max-width: 1000px;
             text-align: center;
-            margin-bottom: 2.5rem; 
-            /* انیمیشن برای سربرگ */
-            opacity: 0;
-            animation: fadeInUp 1s ease-out forwards;
-            animation-delay: 0.1s;
+            margin-bottom: 2rem;
         }
         .header-title h2 {
             font-family: 'Arial Black', sans-serif;
-            font-size: 3.5rem; 
+            font-size: 3rem; 
             font-weight: 900;
-            letter-spacing: 0.2rem;
-            color: var(--primary-highlight); 
-            text-shadow: 0 0 12px rgba(255, 215, 0, 0.7), 0 0 25px rgba(230, 126, 34, 0.5); 
+            letter-spacing: 0.15rem;
+            color: var(--text-light); 
+            /* Softened Neon glow */
+            text-shadow: 0 0 8px rgba(66, 133, 244, 0.6), 0 0 15px rgba(66, 133, 244, 0.4); 
             margin: 0;
             padding-bottom: 0.5rem;
-            border-bottom: 4px solid var(--primary-amber); 
+            border-bottom: 2px solid rgba(66, 133, 244, 0.5);
             display: inline-block;
             transition: all 0.5s ease;
         }
         .header-title h2:hover {
-            text-shadow: 0 0 18px var(--primary-highlight), 0 0 35px var(--primary-amber);
-            transform: scale(1.03);
+            text-shadow: 0 0 12px var(--primary-blue), 0 0 25px var(--primary-blue);
         }
 
         .container {
             width: 100%;
-            max-width: 1100px; 
-            background-color: var(--card-dark); 
-            padding: 4rem; 
-            border-radius: 1rem; 
-            box-shadow: 0 2rem 5rem rgba(0, 0, 0, 0.8); 
-            border: 3px solid rgba(255, 215, 0, 0.2); 
-            /* انیمیشن برای کانتینر اصلی */
-            opacity: 0;
-            animation: fadeInUp 1s ease-out forwards;
-            animation-delay: 0.3s;
+            max-width: 1000px;
+            background-color: rgba(30, 50, 60, 0.8); /* Semi-transparent background */
+            backdrop-filter: blur(8px); /* Increased blur for depth */
+            padding: 2.5rem;
+            border-radius: 1rem;
+            box-shadow: 0 1.25rem 3rem rgba(0, 0, 0, 0.75); /* Deeper shadow */
+            border: 1px solid rgba(255, 255, 255, 0.15); 
         }
         h1 {
-            color: var(--primary-amber); 
-            margin-bottom: 1rem;
-            font-size: 2rem;
-            font-weight: 700;
+            color: var(--primary-blue); 
+            margin-bottom: 0.5rem;
+            font-size: 1.8rem;
+            font-weight: 800;
             text-align: center;
         }
         
-        /* Information Box Styling - تم هشدار لوکس */
+        /* New Information Box Styling */
         .info-box {
-            background-color: rgba(230, 126, 34, 0.15); 
-            border-radius: 0.75rem; 
-            padding: 1.5rem; 
-            margin-bottom: 2.5rem;
-            border-left: 8px solid var(--primary-amber); 
+            background-color: rgba(241, 196, 15, 0.1); /* Accent color background */
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin-bottom: 2rem;
+            border-left: 5px solid var(--accent-yellow);
             color: var(--text-muted);
-            font-size: 1rem;
-            line-height: 1.7;
-            text-align: right; 
+            font-size: 0.95rem;
+            line-height: 1.6;
+            text-align: center;
             transition: all 0.3s ease;
         }
         .info-box strong {
-            color: var(--primary-highlight);
+            color: var(--accent-yellow);
             display: block;
             margin-bottom: 0.5rem;
-            font-size: 1.1rem;
+            font-size: 1rem;
             font-weight: bold;
         }
 
         p.description {
             color: var(--text-muted);
             text-align: center;
-            margin-bottom: 2.5rem;
-            font-size: 1.1em;
+            margin-bottom: 1.5rem;
+            font-size: 1.05em;
             line-height: 1.8;
             padding-bottom: 0.5rem;
         }
@@ -136,86 +105,48 @@
         /* AI Grid Layout */
         .ai-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
-            gap: 2.5rem; 
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: 1.5rem;
         }
 
-        /* Card Styling - اضافه شدن تنظیمات انیمیشن و وضعیت اولیه */
+        /* Card Styling (Core Smoothness) */
         .ai-card {
-            background: var(--card-bg-gradient); 
-            border-radius: 0.75rem; 
-            padding: 1.75rem;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.7); 
-            transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            background-color: var(--card-dark);
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+            transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), border 0.4s ease; /* Optimized transition for "Flow" */
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            min-height: 13rem; 
-            border: 1px solid rgba(255, 215, 0, 0.1); 
-            position: relative;
-            overflow: hidden;
-            
-            /* تنظیمات انیمیشن کارت‌ها */
-            opacity: 0; 
-            animation: fadeInUp 0.8s ease-out forwards; 
+            min-height: 12.5rem; 
+            border-left: 4px solid transparent; 
         }
-        
-        /* اعمال تأخیر تدریجی (Staggered Delay) به هر کارت */
-        .ai-card:nth-child(1) { animation-delay: 0.5s; }
-        .ai-card:nth-child(2) { animation-delay: 0.7s; }
-        .ai-card:nth-child(3) { animation-delay: 0.9s; }
-        .ai-card:nth-child(4) { animation-delay: 1.1s; }
-        .ai-card:nth-child(5) { animation-delay: 1.3s; }
-        .ai-card:nth-child(6) { animation-delay: 1.5s; }
-        .ai-card:nth-child(7) { animation-delay: 1.7s; }
-        .ai-card:nth-child(8) { animation-delay: 1.9s; }
-        .ai-card:nth-child(9) { animation-delay: 2.1s; }
-        .ai-card:nth-child(10) { animation-delay: 2.3s; }
-        
-        
-        .ai-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 6px; 
-            height: 100%;
-            background-color: transparent;
-            transition: background-color 0.4s ease;
-        }
-
         .ai-card:hover {
-            transform: translateY(-0.6rem); 
-            box-shadow: 0 1.25rem 3rem rgba(0, 0, 0, 0.95);
-            border-color: rgba(255, 215, 0, 0.5); 
-        }
-        
-        .ai-card:hover::before {
-            background-color: var(--primary-amber);
-            box-shadow: 0 0 10px var(--primary-amber); 
+            transform: translateY(-0.75rem); /* Increased lift */
+            box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.7); /* Deeper, softer shadow on hover */
+            border-left-color: var(--primary-blue);
         }
         
         .ai-card h3 {
             margin-top: 0;
-            margin-bottom: 0.75rem;
-            font-size: 1.6rem; 
-            color: var(--primary-highlight); 
+            margin-bottom: 0.5rem;
+            font-size: 1.4rem;
+            color: #79bff8; /* Slightly lighter blue for contrast */
             display: flex;
             align-items: center;
         }
-        
         .ai-card h3 span {
             font-size: 1.2em;
-            margin-left: 0.75rem;
+            margin-left: 0.5rem;
             font-weight: bold;
         }
         
         .ai-card p {
-            font-size: 1.05rem; 
+            font-size: 0.95rem;
             color: var(--text-muted);
-            margin-bottom: 1.5rem;
-            font-weight: 400;
-            line-height: 1.7;
+            margin-bottom: 1rem;
+            font-weight: 500;
         }
 
         .ai-card a {
@@ -226,78 +157,63 @@
 
         .ai-button {
             width: 100%;
-            padding: 1.1rem 0.75rem; 
+            padding: 0.75rem;
             border: none;
-            border-radius: 0.4rem; 
-            font-size: 1.1rem;
-            font-weight: 800;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            font-weight: 700;
             cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.1s, box-shadow 0.3s ease;
-            color: var(--bg-dark); 
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.5); 
+            transition: background-color 0.3s ease, transform 0.1s;
+            color: white;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
         }
         .ai-button:active {
             transform: scale(0.98);
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.7);
         }
 
-        /* Specific Color Coding */
-        .gemini-btn { background-color: #f1c40f; color: #1a1a1a; } 
-        .gemini-btn:hover { background-color: #e6b800; }
+        /* Specific Color Coding (Unchanged) */
+        .gemini-btn { background-color: #4285f4; } 
+        .gemini-btn:hover { background-color: #3b78e7; }
         
-        .openai-btn { background-color: #1abc9c; color: #1a1a1a; } 
-        .openai-btn:hover { background-color: #14a383; }
+        .openai-btn { background-color: #10a37f; } 
+        .openai-btn:hover { background-color: #0d8364; }
         
-        .claude-btn { background-color: #e74c3c; color: #1a1a1a; } 
-        .claude-btn:hover { background-color: #c0392b; }
+        .claude-btn { background-color: #ff5722; } 
+        .claude-btn:hover { background-color: #e64a19; }
         
-        .mistral-btn { background-color: #9b59b6; color: #1a1a1a; } 
-        .mistral-btn:hover { background-color: #8e44ad; }
+        .mistral-btn { background-color: #7b1fa2; } 
+        .mistral-btn:hover { background-color: #6a1b9a; }
         
-        /* دکمه‌های عمومی از رنگ اصلی کهربایی استفاده می‌کنند */
-        .generic-btn { background-color: var(--primary-amber); color: var(--bg-dark); } 
-        .generic-btn:hover { background-color: #d35400; }
+        .generic-btn { background-color: #546e7a; } 
+        .generic-btn:hover { background-color: #455a64; }
 
-        /* Llama 3 Button */
-        .ai-button[style*="2ecc71"] { background-color: #2ecc71 !important; color: #1a1a1a !important; }
-        .ai-button[style*="2ecc71"]:hover { background-color: #27ae60 !important; }
-        
-        /* Poe Button */
-        .ai-button[style*="f39c12"] { background-color: #f39c12 !important; color: #1a1a1a !important; }
-        .ai-button[style*="f39c12"]:hover { background-color: #e67e22 !important; }
-
-        /* You.com Button */
-        .ai-button[style*="1abc9c"] { background-color: #1abc9c !important; color: #1a1a1a !important; }
-        .ai-button[style*="1abc9c"]:hover { background-color: #16a085 !important; }
-
-
-        /* Footer/Disclaimer Style - تم گرم و برجسته */
+        /* Footer/Disclaimer Style */
         .disclaimer {
-            margin-top: 3.5rem;
-            padding: 2rem;
-            background-color: rgba(230, 126, 34, 0.2); 
-            border-radius: 1rem;
-            border: 1px solid rgba(230, 126, 34, 0.6); 
+            margin-top: 2rem;
+            padding: 1rem;
+            background-color: rgba(66, 133, 244, 0.1);
+            border-radius: 0.75rem;
+            border: 1px solid rgba(66, 133, 244, 0.3);
             color: var(--text-muted);
             text-align: center;
-            font-size: 0.95rem;
-            box-shadow: 0 0 15px rgba(230, 126, 34, 0.2);
+            font-size: 0.9rem;
         }
         .disclaimer strong {
-            color: var(--primary-highlight);
+            color: var(--accent-yellow);
             font-weight: bold;
         }
 
-        /* Mobile Responsiveness */
+        /* Mobile Responsiveness (Unchanged) */
         @media (max-width: 48rem) { 
             .header-title h2 {
                 font-size: 2.5rem;
             }
             .container {
-                padding: 2rem;
+                padding: 1.5rem;
             }
             .ai-grid {
-                gap: 2rem;
+                grid-template-columns: 1fr; 
+                gap: 1.25rem;
             }
         }
         @media (max-width: 25rem) { 
@@ -329,7 +245,7 @@
             
             <div class="ai-card">
                 <div>
-                    <h3><span style="color: #f1c40f;">✦</span> Gemini (Google)</h3>
+                    <h3><span style="color: #4285f4;">✦</span> Gemini (Google)</h3>
                     <p>
                         هوش مصنوعی قدرتمند گوگل برای تحلیل، برنامه‌نویسی و جستجوی لحظه‌ای.
                         <br>
@@ -343,7 +259,7 @@
 
             <div class="ai-card">
                 <div>
-                    <h3><span style="color: #1abc9c;">★</span> ChatGPT (OpenAI)</h3>
+                    <h3><span style="color: #10a37f;">★</span> ChatGPT (OpenAI)</h3>
                     <p>
                         پرچمدار هوش مصنوعی، بهترین برای تولید محتوای خلاقانه، داستان و مکالمات عمومی.
                     </p>
@@ -355,7 +271,7 @@
 
             <div class="ai-card">
                 <div>
-                    <h3><span style="color: #e74c3c;">🔥</span> Claude (Anthropic)</h3>
+                    <h3><span style="color: #ff5722;">🔥</span> Claude (Anthropic)</h3>
                     <p>
                         تخصص در امنیت و تجزیه و تحلیل اسناد بسیار طولانی. سریع و قابل اعتماد.
                     </p>
@@ -367,7 +283,7 @@
             
             <div class="ai-card">
                 <div>
-                    <h3><span style="color: #c0c0c0;">🔎</span> Perplexity</h3>
+                    <h3><span style="color: #b0c4de;">🔎</span> Perplexity</h3>
                     <p>
                         هوش مصنوعی متصل به اینترنت که پاسخ‌ها را به همراه منابع و رفرنس‌های دقیق ارائه می‌دهد.
                     </p>
@@ -379,7 +295,7 @@
 
             <div class="ai-card">
                 <div>
-                    <h3><span style="color: #c0c0c0;">💻</span> Copilot (Microsoft)</h3>
+                    <h3><span style="color: #3498db;">💻</span> Copilot (Microsoft)</h3>
                     <p>
                         ابزار هوش مصنوعی مایکروسافت، متصل به جستجوی Bing و رایگان. از مدل‌های قدرتمند GPT بهره می‌برد.
                     </p>
@@ -391,7 +307,7 @@
             
             <div class="ai-card">
                 <div>
-                    <h3><span style="color: #c0c0c0;">💬</span> Pi (Hello Pi)</h3>
+                    <h3><span style="color: #7b1fa2;">💬</span> Pi (Hello Pi)</h3>
                     <p>
                         یک هوش مصنوعی مکالمه‌ای و حامی که برای گفتگوهای صمیمانه و پشتیبانی عاطفی طراحی شده.
                     </p>
@@ -439,7 +355,7 @@
 
             <div class="ai-card">
                 <div>
-                    <h3><span style="color: #9b59b6;">⚡</span> Mistral AI</h3>
+                    <h3><span style="color: #e74c3c;">⚡</span> Mistral AI</h3>
                     <p>
                         یکی از سریع‌ترین و بهترین مدل‌ها برای برنامه‌نویسی و پاسخ‌های کوتاه و دقیق.
                     </p>
