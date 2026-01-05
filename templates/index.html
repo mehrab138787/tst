@@ -114,7 +114,7 @@
             padding-right: 25px; 
         }
 
-        /* دکمه ناوبری (لینک مستقیم) */
+        /* دکمه ناوبری (استفاده از تگ button) */
         .ai-button {
             width: 100%;
             padding: 0.9rem; 
@@ -127,7 +127,6 @@
             color: var(--bg-dark); 
             display: block; 
             text-align: center;
-            text-decoration: none;
         }
 
         /* دکمه گزارش خطا */
@@ -158,7 +157,6 @@
         .llama-btn { background-color: #2ecc71 !important; color: #1a1a1a !important;}
         .poe-btn { background-color: #f39c12 !important; color: #1a1a1a !important;}
         .you-btn { background-color: #1abc9c !important; color: #1a1a1a !important;}
-
     </style>
 </head>
 <body>
@@ -178,12 +176,12 @@
         </div>
         
         <p class="description">
-            با کلیک بر روی دکمه شروع اتصال، صفحه چت سرویس مورد نظر **در یک تب جدید مرورگر** باز خواهد شد. این تنها راه تضمین شده برای دور زدن محدودیت‌های امنیتی و رفع فیلتر است.
+            با کلیک بر روی دکمه شروع اتصال، صفحه چت سرویس مورد نظر **در یک تب جدید مرورگر** باز خواهد شد.
         </p>
         
         <div class="ai-grid">
             
-            <div class="ai-card">
+            <div class="ai-card" data-url="https://gemini.google.com/">
                 <div class="ai-card-content">
                     <button class="report-bug-btn" data-ai-name="Gemini">
                         <svg xmlns="http://www.w3.org/2000/svg" class="bug-icon" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" /><path d="M12 9v4" /><path d="M12 16h.01" /></svg>
@@ -191,10 +189,10 @@
                     <h3><span style="color: #f1c40f;">✦</span> Gemini (Google)</h3>
                     <p>هوش مصنوعی قدرتمند گوگل برای تحلیل، جستجوی لحظه‌ای و خلق ایده‌های نوآورانه.</p>
                 </div>
-                <a href="https://gemini.google.com/" target="_blank" class="ai-button gemini-btn">شروع اتصال</a>
+                <button class="ai-button gemini-btn">شروع اتصال</button>
             </div>
 
-            <div class="ai-card">
+            <div class="ai-card" data-url="https://chat.openai.com/">
                 <div class="ai-card-content">
                     <button class="report-bug-btn" data-ai-name="ChatGPT">
                         <svg xmlns="http://www.w3.org/2000/svg" class="bug-icon" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" /><path d="M12 9v4" /><path d="M12 16h.01" /></svg>
@@ -202,10 +200,10 @@
                     <h3><span style="color: #1abc9c;">★</span> ChatGPT (OpenAI)</h3>
                     <p>پرچمدار هوش مصنوعی، بهترین برای تولید محتوای خلاقانه، کدنویسی و پاسخ‌های عمومی.</p>
                 </div>
-                <a href="https://chat.openai.com/" target="_blank" class="ai-button openai-btn">شروع اتصال</a>
+                <button class="ai-button openai-btn">شروع اتصال</button>
             </div>
             
-            <div class="ai-card">
+            <div class="ai-card" data-url="https://claude.ai/chats">
                 <div class="ai-card-content">
                      <button class="report-bug-btn" data-ai-name="Claude">
                         <svg xmlns="http://www.w3.org/2000/svg" class="bug-icon" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" /><path d="M12 9v4" /><path d="M12 16h.01" /></svg>
@@ -213,10 +211,10 @@
                     <h3><span style="color: #e74c3c;">🔥</span> Claude (Anthropic)</h3>
                     <p>تخصص در امنیت، تجزیه و تحلیل اسناد بسیار طولانی و ایجاد محتوای انسان‌مانند.</p>
                 </div>
-                <a href="https://claude.ai/chats" target="_blank" class="ai-button claude-btn">شروع اتصال</a>
+                <button class="ai-button claude-btn">شروع اتصال</button>
             </div>
             
-            <div class="ai-card">
+            <div class="ai-card" data-url="https://www.perplexity.ai/">
                 <div class="ai-card-content">
                     <button class="report-bug-btn" data-ai-name="Perplexity">
                         <svg xmlns="http://www.w3.org/2000/svg" class="bug-icon" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" /><path d="M12 9v4" /><path d="M12 16h.01" /></svg>
@@ -224,10 +222,10 @@
                     <h3><span style="color: #c0c0c0;">🔎</span> Perplexity</h3>
                     <p>موتور پاسخ‌دهنده متصل به اینترنت که پاسخ‌ها را به همراه منابع دقیق ارائه می‌دهد.</p>
                 </div>
-                <a href="https://www.perplexity.ai/" target="_blank" class="ai-button generic-btn">شروع اتصال</a>
+                <button class="ai-button generic-btn">شروع اتصال</button>
             </div>
 
-            <div class="ai-card">
+            <div class="ai-card" data-url="https://copilot.microsoft.com/">
                 <div class="ai-card-content">
                      <button class="report-bug-btn" data-ai-name="Copilot">
                         <svg xmlns="http://www.w3.org/2000/svg" class="bug-icon" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" /><path d="M12 9v4" /><path d="M12 16h.01" /></svg>
@@ -235,10 +233,10 @@
                     <h3><span style="color: #c0c0c0;">💻</span> Copilot (Microsoft)</h3>
                     <p>ابزار هوش مصنوعی مایکروسافت، متصل به جستجوی Bing و با قابلیت تولید تصاویر.</p>
                 </div>
-                <a href="https://copilot.microsoft.com/" target="_blank" class="ai-button generic-btn">شروع اتصال</a>
+                <button class="ai-button generic-btn">شروع اتصال</button>
             </div>
             
-            <div class="ai-card">
+            <div class="ai-card" data-url="https://pi.ai/talk">
                 <div class="ai-card-content">
                      <button class="report-bug-btn" data-ai-name="Pi">
                         <svg xmlns="http://www.w3.org/2000/svg" class="bug-icon" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" /><path d="M12 9v4" /><path d="M12 16h.01" /></svg>
@@ -246,10 +244,10 @@
                     <h3><span style="color: #c0c0c0;">💬</span> Pi (Hello Pi)</h3>
                     <p>یک هوش مصنوعی مکالمه‌ای و حامی برای گفتگوهای صمیمانه و کمک‌های شخصی.</p>
                 </div>
-                <a href="https://pi.ai/talk" target="_blank" class="ai-button generic-btn">شروع اتصال</a>
+                <button class="ai-button generic-btn">شروع اتصال</button>
             </div>
 
-            <div class="ai-card">
+            <div class="ai-card" data-url="https://llama.perplexity.ai/">
                 <div class="ai-card-content">
                      <button class="report-bug-btn" data-ai-name="Llama 3">
                         <svg xmlns="http://www.w3.org/2000/svg" class="bug-icon" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" /><path d="M12 9v4" /><path d="M12 16h.01" /></svg>
@@ -257,10 +255,10 @@
                     <h3><span style="color: #2ecc71;">🦙</span> Llama 3 (Meta)</h3>
                     <p>مدل منبع باز قدرتمند شرکت متا، مناسب برای توسعه‌دهندگان و کاربران حرفه‌ای.</p>
                 </div>
-                <a href="https://llama.perplexity.ai/" target="_blank" class="ai-button llama-btn">شروع اتصال</a>
+                <button class="ai-button llama-btn">شروع اتصال</button>
             </div>
 
-            <div class="ai-card">
+            <div class="ai-card" data-url="https://poe.com/">
                 <div class="ai-card-content">
                      <button class="report-bug-btn" data-ai-name="Poe">
                         <svg xmlns="http://www.w3.org/2000/svg" class="bug-icon" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" /><path d="M12 9v4" /><path d="M12 16h.01" /></svg>
@@ -268,10 +266,10 @@
                     <h3><span style="color: #f39c12;">🎯</span> Poe (Quora)</h3>
                     <p>پلتفرمی که چندین مدل AI (مثل GPT-4، Claude) را در یک جا تجمیع کرده است.</p>
                 </div>
-                <a href="https://poe.com/" target="_blank" class="ai-button poe-btn">شروع اتصال</a>
+                <button class="ai-button poe-btn">شروع اتصال</button>
             </div>
 
-            <div class="ai-card">
+            <div class="ai-card" data-url="https://you.com/chat">
                 <div class="ai-card-content">
                      <button class="report-bug-btn" data-ai-name="You.com">
                         <svg xmlns="http://www.w3.org/2000/svg" class="bug-icon" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" /><path d="M12 9v4" /><path d="M12 16h.01" /></svg>
@@ -279,10 +277,10 @@
                     <h3><span style="color: #1abc9c;">🚀</span> You.com</h3>
                     <p>موتور جستجوی خصوصی با قابلیت چت و ابزارهای متنوع برای کاربران.</p>
                 </div>
-                <a href="https://you.com/chat" target="_blank" class="ai-button you-btn">شروع اتصال</a>
+                <button class="ai-button you-btn">شروع اتصال</button>
             </div>
 
-            <div class="ai-card">
+            <div class="ai-card" data-url="https://chat.mistral.ai/">
                 <div class="ai-card-content">
                      <button class="report-bug-btn" data-ai-name="Mistral AI">
                         <svg xmlns="http://www.w3.org/2000/svg" class="bug-icon" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" /><path d="M12 9v4" /><path d="M12 16h.01" /></svg>
@@ -290,7 +288,7 @@
                     <h3><span style="color: #9b59b6;">⚡</span> Mistral AI</h3>
                     <p>یکی از سریع‌ترین مدل‌ها برای برنامه‌نویسی و استدلال، با پاسخ‌های کوتاه و دقیق.</p>
                 </div>
-                <a href="https://chat.mistral.ai/" target="_blank" class="ai-button mistral-btn">شروع اتصال</a>
+                <button class="ai-button mistral-btn">شروع اتصال</button>
             </div>
 
         </div>
@@ -313,6 +311,20 @@
                 const mailtoLink = `mailto:${emailAddress}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
                 
                 window.location.href = mailtoLink;
+            });
+        });
+        
+        // --- مدیریت دکمه‌های اتصال (با window.open برای تضمین اجرا) ---
+        const aiCards = document.querySelectorAll('.ai-card');
+
+        aiCards.forEach(card => {
+            const button = card.querySelector('.ai-button');
+            const url = card.getAttribute('data-url'); 
+            
+            button.addEventListener('click', (e) => {
+                e.preventDefault();
+                // این دستور تضمین می‌کند که مرورگر داخلی (Custom Tab) یا خارجی گوشی باز شود.
+                window.open(url, '_blank'); 
             });
         });
     </script>
