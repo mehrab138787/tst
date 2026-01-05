@@ -23,15 +23,18 @@
         body {
             font-family: 'Tahoma', 'Vazirmatn', 'Segoe UI', sans-serif;
             margin: 0;
-            padding-top: var(--header-height); 
+            padding: 0;
             background-color: var(--bg-dark);
             color: var(--text-light);
             min-height: 100vh;
-            overflow-x: hidden; 
+            display: flex;
+            flex-direction: column;
+            overflow: hidden; 
+            position: relative; 
         }
         
         /* --------------------------- */
-        /* هدر برنامه (Toolbar) - ثابت */
+        /* هدر برنامه (Toolbar) */
         /* --------------------------- */
         .app-header {
             height: var(--header-height);
@@ -39,7 +42,7 @@
             color: var(--text-light);
             display: flex;
             align-items: center;
-            justify-content: center; 
+            justify-content: space-between;
             padding: 0 15px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4); 
             position: fixed;
@@ -54,40 +57,63 @@
             font-size: 1.3rem;
             font-weight: 800;
             color: var(--primary-accent);
-        }
-        
-        /* --------------------------- */
-        /* محتوای اصلی (لیست) */
-        /* --------------------------- */
-        .container {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 1.5rem 1rem 4rem 1rem; 
-        }
-        
-        .container h1 {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: var(--primary-accent);
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
         }
 
-        .info-box {
-            background-color: #1e2a38; 
-            border-right: 4px solid var(--primary-accent);
-            padding: 1rem;
-            border-radius: 6px;
-            margin: 1.5rem 0;
-            color: #e0e0e0;
-        }
-        .description { color: var(--text-muted); font-size: 1rem; margin-bottom: 2rem; }
-
-        .ai-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
-            gap: 1.5rem; 
+        .back-button {
+            background: none;
+            border: none;
+            color: var(--text-light);
+            font-size: 0.95rem;
+            cursor: pointer;
+            padding: 5px 10px;
+            display: flex;
+            align-items: center;
+            transition: opacity 0.3s;
+            z-index: 2; 
+            opacity: 0;
+            pointer-events: none; 
         }
         
-        /* کارت AI */
+        .back-button.visible {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .back-button svg {
+            stroke: var(--primary-accent); 
+            margin-left: 5px;
+            width: 20px;
+            height: 20px;
+        }
+
+        /* --------------------------- */
+        /* مدیریت صفحات (Page Management) - Native UX */
+        /* --------------------------- */
+        .page {
+            position: absolute;
+            top: var(--header-height);
+            left: 0;
+            right: 0;
+            bottom: 0;
+            width: 100%;
+            background-color: var(--bg-dark);
+            overflow-y: auto;
+            transition: transform 0.4s cubic-bezier(0.2, 0, 0, 1); /* انیمیشن روان اندروید */
+            z-index: 10;
+        }
+        .page.chat-page { transform: translateX(100%); overflow: hidden; }
+        .page-active.main-list-page { transform: translateX(-100%); }
+        .page-active.chat-page { transform: translateX(0); }
+
+        /* --------------------------- */
+        /* محتوای لیست و کارت‌ها */
+        /* --------------------------- */
+        .container { max-width: 1100px; margin: 0 auto; padding: 1.5rem 1rem 4rem 1rem; }
+        .ai-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; }
+        
         .ai-card {
             background: var(--card-dark); 
             border-radius: 0.75rem; 
@@ -100,21 +126,10 @@
             flex-direction: column;
             justify-content: space-between;
         }
+        .ai-card-content { position: relative; }
         
-        .ai-card-content {
-            position: relative;
-        }
-        
-        .ai-card h3 {
-            font-size: 1.1rem;
-            font-weight: 700;
-            margin-top: 0;
-            margin-bottom: 0.5rem;
-            color: var(--text-light);
-            padding-right: 25px; 
-        }
+        .ai-card h3 { padding-right: 25px; }
 
-        /* دکمه ناوبری (استفاده از تگ button) */
         .ai-button {
             width: 100%;
             padding: 0.9rem; 
@@ -125,208 +140,274 @@
             cursor: pointer;
             margin-top: 1rem;
             color: var(--bg-dark); 
-            display: block; 
-            text-align: center;
         }
-
-        /* دکمه گزارش خطا */
         .report-bug-btn {
-            position: absolute;
-            top: 0; 
-            right: 0; 
-            background: none;
-            border: none;
-            cursor: pointer;
-            color: var(--text-muted);
-            transition: color 0.2s;
-            padding: 5px; 
-            z-index: 10;
+            position: absolute; top: 0; right: 0; background: none; border: none; cursor: pointer;
+            color: var(--text-muted); transition: color 0.2s; padding: 5px; z-index: 10;
         }
-        .bug-icon {
-            width: 20px;
-            height: 20px;
-            stroke-width: 2;
-        }
-
+        .bug-icon { width: 20px; height: 20px; stroke-width: 2; }
+        
         /* رنگ‌های مخصوص دکمه‌ها */
-        .gemini-btn { background-color: #f1c40f; } 
-        .openai-btn { background-color: #1abc9c; } 
-        .claude-btn { background-color: #e74c3c; } 
-        .mistral-btn { background-color: #9b59b6; } 
+        .primary-btn { background-color: var(--primary-accent); } 
         .generic-btn { background-color: #ccc; } 
         .llama-btn { background-color: #2ecc71 !important; color: #1a1a1a !important;}
         .poe-btn { background-color: #f39c12 !important; color: #1a1a1a !important;}
         .you-btn { background-color: #1abc9c !important; color: #1a1a1a !important;}
+
+
+        /* --------------------------- */
+        /* iFrame و لودینگ اتصال */
+        /* --------------------------- */
+        .chat-iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            display: block;
+            background-color: white; 
+        }
+        
+        .loading-overlay {
+            position: absolute; 
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: var(--bg-dark); 
+            display: none; 
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 50; 
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            color: white;
+            text-align: center;
+        }
+        
+        .loading-overlay.visible { display: flex; opacity: 1; }
+        
+        .spinner {
+            border: 5px solid rgba(255, 255, 255, 0.1); 
+            border-top: 5px solid var(--primary-accent); 
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s cubic-bezier(0.5, 0, 0.5, 1) infinite; 
+            margin-bottom: 25px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
     </style>
 </head>
 <body>
     
     <div class="app-header">
-        <div class="header-logo">NOCTOVEX Hub</div>
+        <button id="back-button" class="back-button">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 12l14 0" /><path d="M5 12l4 4" /><path d="M5 12l4 -4" /></svg>
+            برگشت
+        </button>
+        <div class="header-logo" id="header-title">NOCTOVEX Hub</div>
+        <div style="width: 80px;"></div> 
     </div>
 
-    <div class="container">
-        <h1>AI Hub | مرکز اتصال هوش مصنوعی</h1>
-        
-        <div class="info-box">
-            <strong>💡 توجه مهم:</strong>
-            <p>
-                این برنامه صرفاً یک **موتور ناوبری پیشرفته** است که شما را به طور امن به سرویس‌های AI خارجی متصل می‌کند. تمامی فرآیندهای ورود (Login) و ثبت نام در **سایت اصلی سرویس** انجام می‌شود. ما هیچ داده‌ای از شما ذخیره نمی‌کنیم. 
+    <div class="page main-list-page" id="main-list-page">
+        <div class="container">
+            <h1>AI Hub | مرکز اتصال هوش مصنوعی</h1>
+            
+            <div class="info-box">
+                <strong>💡 توضیح مهم برای کافه‌بازار و کاربران:</strong>
+                <p>
+                    این برنامه برای حفظ تجربه کاربری (UX) یک **مرورگر امن داخلی** را فراهم کرده است.
+                    به دلیل قوانین امنیتی سخت‌گیرانه وب‌سایت‌های خارجی (X-Frame-Options)، تنها سرویس‌هایی در اینجا نمایش داده شده‌اند که **سازگاری کامل** با این محیط مرورگر داخلی دارند.
+                </p>
+            </div>
+            <p class="description">
+                 با کلیک بر روی دکمه، اتصال در داخل برنامه برقرار خواهد شد. تمامی سرویس‌های زیر بدون نیاز به فیلترشکن فعال هستند.
             </p>
-        </div>
-        
-        <p class="description">
-            با کلیک بر روی دکمه شروع اتصال، صفحه چت سرویس مورد نظر **در یک تب جدید مرورگر** باز خواهد شد.
-        </p>
-        
-        <div class="ai-grid">
             
-            <div class="ai-card" data-url="https://gemini.google.com/">
-                <div class="ai-card-content">
-                    <button class="report-bug-btn" data-ai-name="Gemini">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="bug-icon" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" /><path d="M12 9v4" /><path d="M12 16h.01" /></svg>
-                    </button>
-                    <h3><span style="color: #f1c40f;">✦</span> Gemini (Google)</h3>
-                    <p>هوش مصنوعی قدرتمند گوگل برای تحلیل، جستجوی لحظه‌ای و خلق ایده‌های نوآورانه.</p>
+            <div class="ai-grid">
+                
+                <div class="ai-card" data-url="https://pi.ai/talk">
+                    <div class="ai-card-content">
+                         <button class="report-bug-btn" data-ai-name="Pi">
+                             <svg xmlns="http://www.w3.org/2000/svg" class="bug-icon" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" /><path d="M12 9v4" /><path d="M12 16h.01" /></svg>
+                        </button>
+                        <h3><span style="color: #c0c0c0;">💬</span> Pi (Hello Pi)</h3>
+                        <p>یک هوش مصنوعی مکالمه‌ای و حامی برای گفتگوهای صمیمانه و کمک‌های شخصی.</p>
+                    </div>
+                    <button class="ai-button primary-btn">شروع اتصال</button>
                 </div>
-                <button class="ai-button gemini-btn">شروع اتصال</button>
-            </div>
+                
+                <div class="ai-card" data-url="https://poe.com/">
+                    <div class="ai-card-content">
+                         <button class="report-bug-btn" data-ai-name="Poe">
+                             <svg xmlns="http://www.w3.org/2000/svg" class="bug-icon" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" /><path d="M12 9v4" /><path d="M12 16h.01" /></svg>
+                        </button>
+                        <h3><span style="color: #f39c12;">🎯</span> Poe (Quora)</h3>
+                        <p>پلتفرمی که چندین مدل AI (مثل GPT-4، Claude) را در یک جا تجمیع کرده است. (سازگاری بالا با iFrame)</p>
+                    </div>
+                    <button class="ai-button poe-btn">شروع اتصال</button>
+                </div>
 
-            <div class="ai-card" data-url="https://chat.openai.com/">
-                <div class="ai-card-content">
-                    <button class="report-bug-btn" data-ai-name="ChatGPT">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="bug-icon" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" /><path d="M12 9v4" /><path d="M12 16h.01" /></svg>
-                    </button>
-                    <h3><span style="color: #1abc9c;">★</span> ChatGPT (OpenAI)</h3>
-                    <p>پرچمدار هوش مصنوعی، بهترین برای تولید محتوای خلاقانه، کدنویسی و پاسخ‌های عمومی.</p>
+                <div class="ai-card" data-url="https://www.perplexity.ai/">
+                    <div class="ai-card-content">
+                        <button class="report-bug-btn" data-ai-name="Perplexity">
+                             <svg xmlns="http://www.w3.org/2000/svg" class="bug-icon" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" /><path d="M12 9v4" /><path d="M12 16h.01" /></svg>
+                        </button>
+                        <h3><span style="color: #c0c0c0;">🔎</span> Perplexity</span></h3>
+                        <p>موتور پاسخ‌دهنده متصل به اینترنت که پاسخ‌ها را به همراه منابع دقیق ارائه می‌دهد.</p>
+                    </div>
+                    <button class="ai-button generic-btn">شروع اتصال</button>
                 </div>
-                <button class="ai-button openai-btn">شروع اتصال</button>
-            </div>
-            
-            <div class="ai-card" data-url="https://claude.ai/chats">
-                <div class="ai-card-content">
-                     <button class="report-bug-btn" data-ai-name="Claude">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="bug-icon" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" /><path d="M12 9v4" /><path d="M12 16h.01" /></svg>
-                    </button>
-                    <h3><span style="color: #e74c3c;">🔥</span> Claude (Anthropic)</h3>
-                    <p>تخصص در امنیت، تجزیه و تحلیل اسناد بسیار طولانی و ایجاد محتوای انسان‌مانند.</p>
-                </div>
-                <button class="ai-button claude-btn">شروع اتصال</button>
-            </div>
-            
-            <div class="ai-card" data-url="https://www.perplexity.ai/">
-                <div class="ai-card-content">
-                    <button class="report-bug-btn" data-ai-name="Perplexity">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="bug-icon" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" /><path d="M12 9v4" /><path d="M12 16h.01" /></svg>
-                    </button>
-                    <h3><span style="color: #c0c0c0;">🔎</span> Perplexity</h3>
-                    <p>موتور پاسخ‌دهنده متصل به اینترنت که پاسخ‌ها را به همراه منابع دقیق ارائه می‌دهد.</p>
-                </div>
-                <button class="ai-button generic-btn">شروع اتصال</button>
-            </div>
 
-            <div class="ai-card" data-url="https://copilot.microsoft.com/">
-                <div class="ai-card-content">
-                     <button class="report-bug-btn" data-ai-name="Copilot">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="bug-icon" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" /><path d="M12 9v4" /><path d="M12 16h.01" /></svg>
-                    </button>
-                    <h3><span style="color: #c0c0c0;">💻</span> Copilot (Microsoft)</h3>
-                    <p>ابزار هوش مصنوعی مایکروسافت، متصل به جستجوی Bing و با قابلیت تولید تصاویر.</p>
+                <div class="ai-card" data-url="https://you.com/chat">
+                    <div class="ai-card-content">
+                         <button class="report-bug-btn" data-ai-name="You.com">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="bug-icon" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" /><path d="M12 9v4" /><path d="M12 16h.01" /></svg>
+                        </button>
+                        <h3><span style="color: #1abc9c;">🚀</span> You.com</h3>
+                        <p>موتور جستجوی خصوصی با قابلیت چت و ابزارهای متنوع برای کاربران. (قابلیت سازگاری خوب)</p>
+                    </div>
+                    <button class="ai-button you-btn">شروع اتصال</button>
                 </div>
-                <button class="ai-button generic-btn">شروع اتصال</button>
-            </div>
-            
-            <div class="ai-card" data-url="https://pi.ai/talk">
-                <div class="ai-card-content">
-                     <button class="report-bug-btn" data-ai-name="Pi">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="bug-icon" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" /><path d="M12 9v4" /><path d="M12 16h.01" /></svg>
-                    </button>
-                    <h3><span style="color: #c0c0c0;">💬</span> Pi (Hello Pi)</h3>
-                    <p>یک هوش مصنوعی مکالمه‌ای و حامی برای گفتگوهای صمیمانه و کمک‌های شخصی.</p>
-                </div>
-                <button class="ai-button generic-btn">شروع اتصال</button>
-            </div>
 
-            <div class="ai-card" data-url="https://llama.perplexity.ai/">
-                <div class="ai-card-content">
-                     <button class="report-bug-btn" data-ai-name="Llama 3">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="bug-icon" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" /><path d="M12 9v4" /><path d="M12 16h.01" /></svg>
-                    </button>
-                    <h3><span style="color: #2ecc71;">🦙</span> Llama 3 (Meta)</h3>
-                    <p>مدل منبع باز قدرتمند شرکت متا، مناسب برای توسعه‌دهندگان و کاربران حرفه‌ای.</p>
+                <div class="ai-card" data-url="https://c.ai/chat">
+                    <div class="ai-card-content">
+                         <button class="report-bug-btn" data-ai-name="Character AI">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="bug-icon" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" /><path d="M12 9v4" /><path d="M12 16h.01" /></svg>
+                        </button>
+                        <h3><span style="color: #9b59b6;">👤</span> Character AI</h3>
+                        <p>ساخت شخصیت‌های هوش مصنوعی و گفتگو با آن‌ها.</p>
+                    </div>
+                    <button class="ai-button primary-btn">شروع اتصال</button>
                 </div>
-                <button class="ai-button llama-btn">شروع اتصال</button>
-            </div>
-
-            <div class="ai-card" data-url="https://poe.com/">
-                <div class="ai-card-content">
-                     <button class="report-bug-btn" data-ai-name="Poe">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="bug-icon" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" /><path d="M12 9v4" /><path d="M12 16h.01" /></svg>
-                    </button>
-                    <h3><span style="color: #f39c12;">🎯</span> Poe (Quora)</h3>
-                    <p>پلتفرمی که چندین مدل AI (مثل GPT-4، Claude) را در یک جا تجمیع کرده است.</p>
+                
+                <div class="ai-card" data-url="https://huggingface.co/chat">
+                    <div class="ai-card-content">
+                         <button class="report-bug-btn" data-ai-name="Hugging Chat">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="bug-icon" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" /><path d="M12 9v4" /><path d="M12 16h.01" /></svg>
+                        </button>
+                        <h3><span style="color: #f1c40f;">🤝</span> Hugging Chat</h3>
+                        <p>چت‌باکس منبع باز جامعه Hugging Face.</p>
+                    </div>
+                    <button class="ai-button primary-btn">شروع اتصال</button>
                 </div>
-                <button class="ai-button poe-btn">شروع اتصال</button>
-            </div>
 
-            <div class="ai-card" data-url="https://you.com/chat">
-                <div class="ai-card-content">
-                     <button class="report-bug-btn" data-ai-name="You.com">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="bug-icon" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" /><path d="M12 9v4" /><path d="M12 16h.01" /></svg>
-                    </button>
-                    <h3><span style="color: #1abc9c;">🚀</span> You.com</h3>
-                    <p>موتور جستجوی خصوصی با قابلیت چت و ابزارهای متنوع برای کاربران.</p>
-                </div>
-                <button class="ai-button you-btn">شروع اتصال</button>
-            </div>
 
-            <div class="ai-card" data-url="https://chat.mistral.ai/">
-                <div class="ai-card-content">
-                     <button class="report-bug-btn" data-ai-name="Mistral AI">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="bug-icon" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" /><path d="M12 9v4" /><path d="M12 16h.01" /></svg>
-                    </button>
-                    <h3><span style="color: #9b59b6;">⚡</span> Mistral AI</h3>
-                    <p>یکی از سریع‌ترین مدل‌ها برای برنامه‌نویسی و استدلال، با پاسخ‌های کوتاه و دقیق.</p>
-                </div>
-                <button class="ai-button mistral-btn">شروع اتصال</button>
             </div>
-
         </div>
     </div>
     
+    <div class="page chat-page" id="chat-page">
+        <div class="loading-overlay" id="loading-overlay">
+            <div class="loader-content">
+                <div class="app-brand">NOCTOVEX AI Hub</div>
+                <div class="spinner"></div>
+                <div class="loading-text" id="loading-main-text">در حال برقراری اتصال امن به سرویس...</div>
+                <div class="sub-text" id="loading-sub-text">لطفاً تا بارگذاری کامل صفحه سرویس AI صبر کنید.</div>
+            </div>
+        </div>
+        
+        <iframe id="chat-iframe" class="chat-iframe" sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-pointer-lock"></iframe>
+    </div>
+
     <script>
+        const mainListPage = document.getElementById('main-list-page');
+        const chatPage = document.getElementById('chat-page');
+        const chatIframe = document.getElementById('chat-iframe');
+        const backButton = document.getElementById('back-button');
+        const headerTitle = document.getElementById('header-title');
+        const loadingOverlay = document.getElementById('loading-overlay'); 
+        const loadingMainText = document.getElementById('loading-main-text');
+        const loadingSubText = document.getElementById('loading-sub-text');
+        const aiCards = document.querySelectorAll('.ai-card');
+
+        const defaultTitle = 'NOCTOVEX Hub';
+        
+        // حالت اصلی (لیست)
+        function showMainList() {
+            mainListPage.classList.remove('page-active');
+            chatPage.classList.remove('page-active');
+            
+            headerTitle.textContent = defaultTitle;
+            backButton.classList.remove('visible');
+            
+            setTimeout(() => {
+                chatIframe.src = 'about:blank';
+            }, 500); 
+        }
+
+        // حالت چت (نمایش iFrame)
+        function showChat(url, title) {
+            headerTitle.textContent = title;
+            backButton.classList.add('visible');
+            
+            loadingMainText.textContent = `در حال اتصال به ${title}...`;
+            loadingSubText.textContent = 'این فرآیند ممکن است چند ثانیه طول بکشد. لطفاً شکیبا باشید.';
+
+            loadingOverlay.classList.add('visible');
+            
+            mainListPage.classList.add('page-active');
+            chatPage.classList.add('page-active');
+            
+            chatIframe.src = url;
+            
+            // پنهان کردن لودینگ پس از بارگذاری کامل iframe (یا تاخیر معقول)
+            chatIframe.onload = () => {
+                setTimeout(() => {
+                    loadingOverlay.classList.remove('visible');
+                }, 800); 
+                chatIframe.onload = null;
+            };
+
+            // افزودن یک تایم‌اوت در صورت عدم اجرای onload (برای رفع مشکل عدم پنهان شدن لودینگ در صورت بلاک شدن)
+            setTimeout(() => {
+                 if(loadingOverlay.classList.contains('visible')) {
+                    console.warn("IFrame may have been blocked or failed to load. Hiding loading screen.");
+                    loadingOverlay.classList.remove('visible');
+                }
+            }, 8000); // 8 ثانیه صبر می‌کنیم.
+        }
+
+        // --- مدیریت دکمه‌های شروع چت ---
+        aiCards.forEach(card => {
+            const button = card.querySelector('.ai-button');
+            const url = card.getAttribute('data-url');
+            const titleElement = card.querySelector('h3');
+            const fullTitle = titleElement.textContent.trim();
+            const title = fullTitle.substring(fullTitle.indexOf(' ') + 1); 
+
+            button.addEventListener('click', (e) => {
+                e.preventDefault();
+                showChat(url, title);
+            });
+        });
+
         // --- مدیریت دکمه‌های گزارش خطا (Mailto) ---
         const bugButtons = document.querySelectorAll('.report-bug-btn');
 
         bugButtons.forEach(button => {
             button.addEventListener('click', (e) => {
                 e.preventDefault();
-                e.stopPropagation(); 
+                e.stopPropagation();
                 
                 const aiName = button.getAttribute('data-ai-name');
                 const emailAddress = 'noctovex@gmail.com';
                 const subject = `گزارش خطا در سرویس ${aiName} در برنامه NOCTOVEX AI Hub`;
-                const body = `توسعه‌دهنده گرامی،\n\nبنده با سرویس ${aiName} در برنامه AI Hub به مشکلی برخوردم. (خطای باز نشدن صفحه در مرورگر)\n\nشرح مشکل:\n[لطفاً مشکل خود را اینجا شرح دهید]\n\nاطلاعات دستگاه (اختیاری):\nمدل دستگاه: [مثلاً: Samsung S21 / iPhone 14]\nنسخه اندروید/iOS: [مثلاً: Android 13]`;
+                const body = `توسعه‌دهنده گرامی،\n\nبنده با سرویس ${aiName} در برنامه AI Hub به مشکلی برخوردم. (خطای باز نشدن صفحه در WebView)\n\nشرح مشکل:\n[لطفاً مشکل خود را اینجا شرح دهید]\n\nاطلاعات دستگاه (اختیاری):\nمدل دستگاه: [مثلاً: Samsung S21 / iPhone 14]\nنسخه اندروید/iOS: [مثلاً: Android 13]`;
                 
                 const mailtoLink = `mailto:${emailAddress}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
                 
                 window.location.href = mailtoLink;
             });
         });
-        
-        // --- مدیریت دکمه‌های اتصال (با window.open برای تضمین اجرا) ---
-        const aiCards = document.querySelectorAll('.ai-card');
 
-        aiCards.forEach(card => {
-            const button = card.querySelector('.ai-button');
-            const url = card.getAttribute('data-url'); 
-            
-            button.addEventListener('click', (e) => {
-                e.preventDefault();
-                // این دستور تضمین می‌کند که مرورگر داخلی (Custom Tab) یا خارجی گوشی باز شود.
-                window.open(url, '_blank'); 
-            });
-        });
+        // شنونده رویداد برای دکمه برگشت
+        backButton.addEventListener('click', showMainList);
+        
+        // حالت اولیه
+        showMainList();
     </script>
 </body>
 </html>
