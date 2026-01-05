@@ -2,376 +2,555 @@
 <html lang="fa" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>NOCTOVEX AI Hub</title>
     <style>
-        /* Base Styles and Typography */
+        /* --------------------------- */
+        /* متغیرهای Dark Mode شیک */
+        /* --------------------------- */
         :root {
-            --primary-blue: #4285f4;
-            --accent-yellow: #f1c40f;
-            --bg-dark: #0f2027;
-            --card-dark: #1e3540; /* Slightly lighter card for better contrast */
-            --text-light: #ecf0f1;
-            --text-muted: #b0c4de;
+            --primary-accent: #4a90e2; /* آبی برجسته و مدرن */
+            --bg-dark: #121212; /* پس زمینه اصلی تیره */
+            --card-dark: #1e1e1e; /* پس زمینه کارت و المان ها */
+            --text-light: #ffffff;
+            --text-muted: #aaaaaa;
+            --header-dark: #1e1e1e;
+            --header-height: 60px;
+            --border-color: #333;
+            --bug-color: #e74c3c; /* رنگ قرمز برای گزارش خطا */
         }
 
         body {
             font-family: 'Tahoma', 'Vazirmatn', 'Segoe UI', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            justify-content: flex-start;
-            min-height: 100vh;
-            margin: 0;
-            background: linear-gradient(135deg, var(--bg-dark) 0%, #1e3a47 50%, #2c5364 100%); 
+            overflow: hidden; 
+            position: relative; 
+        }
+        
+        /* --------------------------- */
+        /* هدر برنامه (Toolbar) */
+        /* --------------------------- */
+        .app-header {
+            height: var(--header-height);
+            background-color: var(--header-dark);
             color: var(--text-light);
-            padding: 2rem 1rem; 
-            line-height: 1.6;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4); 
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 200; 
+            border-bottom: 1px solid var(--border-color);
         }
 
-        /* Noctovex Header Styling */
-        .header-title {
-            width: 100%;
-            max-width: 1000px;
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-        .header-title h2 {
-            font-family: 'Arial Black', sans-serif;
-            font-size: 3rem; 
-            font-weight: 900;
-            letter-spacing: 0.15rem;
-            color: var(--text-light); 
-            /* Softened Neon glow */
-            text-shadow: 0 0 8px rgba(66, 133, 244, 0.6), 0 0 15px rgba(66, 133, 244, 0.4); 
-            margin: 0;
-            padding-bottom: 0.5rem;
-            border-bottom: 2px solid rgba(66, 133, 244, 0.5);
-            display: inline-block;
-            transition: all 0.5s ease;
-        }
-        .header-title h2:hover {
-            text-shadow: 0 0 12px var(--primary-blue), 0 0 25px var(--primary-blue);
-        }
-
-        .container {
-            width: 100%;
-            max-width: 1000px;
-            background-color: rgba(30, 50, 60, 0.8); /* Semi-transparent background */
-            backdrop-filter: blur(8px); /* Increased blur for depth */
-            padding: 2.5rem;
-            border-radius: 1rem;
-            box-shadow: 0 1.25rem 3rem rgba(0, 0, 0, 0.75); /* Deeper shadow */
-            border: 1px solid rgba(255, 255, 255, 0.15); 
-        }
-        h1 {
-            color: var(--primary-blue); 
-            margin-bottom: 0.5rem;
-            font-size: 1.8rem;
+        .header-logo {
+            font-size: 1.3rem;
             font-weight: 800;
-            text-align: center;
-        }
-        
-        /* New Information Box Styling */
-        .info-box {
-            background-color: rgba(241, 196, 15, 0.1); /* Accent color background */
-            border-radius: 0.5rem;
-            padding: 1rem;
-            margin-bottom: 2rem;
-            border-left: 5px solid var(--accent-yellow);
-            color: var(--text-muted);
-            font-size: 0.95rem;
-            line-height: 1.6;
-            text-align: center;
-            transition: all 0.3s ease;
-        }
-        .info-box strong {
-            color: var(--accent-yellow);
-            display: block;
-            margin-bottom: 0.5rem;
-            font-size: 1rem;
-            font-weight: bold;
+            color: var(--primary-accent);
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
         }
 
-        p.description {
-            color: var(--text-muted);
-            text-align: center;
-            margin-bottom: 1.5rem;
-            font-size: 1.05em;
-            line-height: 1.8;
-            padding-bottom: 0.5rem;
+        .back-button {
+            background: none;
+            border: none;
+            color: var(--text-light);
+            font-size: 0.95rem;
+            cursor: pointer;
+            padding: 5px 10px;
+            display: flex;
+            align-items: center;
+            transition: opacity 0.3s;
+            z-index: 2; 
+            opacity: 0;
+            pointer-events: none; 
         }
         
-        /* AI Grid Layout */
+        .back-button.visible {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .back-button svg {
+            stroke: var(--primary-accent); 
+            margin-left: 5px;
+            width: 20px;
+            height: 20px;
+        }
+
+        /* --------------------------- */
+        /* مدیریت صفحات (Native UX) */
+        /* --------------------------- */
+        .page {
+            position: absolute;
+            top: var(--header-height);
+            left: 0;
+            right: 0;
+            bottom: 0;
+            width: 100%;
+            background-color: var(--bg-dark);
+            overflow-y: auto;
+            transition: transform 0.4s cubic-bezier(0.2, 0, 0, 1); 
+            z-index: 10;
+        }
+        .page.chat-page { transform: translateX(100%); overflow: hidden; }
+        .page-active.main-list-page { transform: translateX(-100%); }
+        .page-active.chat-page { transform: translateX(0); }
+
+        /* --------------------------- */
+        /* محتوای لیست و کارت‌ها */
+        /* --------------------------- */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 1.5rem 1rem 4rem 1rem; 
+        }
+        
+        .container h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary-accent);
+        }
+
+        .info-box {
+            background-color: #1e2a38; 
+            border-right: 4px solid var(--primary-accent);
+            padding: 1rem;
+            border-radius: 6px;
+            margin: 1.5rem 0;
+            color: #e0e0e0;
+        }
+        .description { color: var(--text-muted); font-size: 1rem; margin-bottom: 2rem; }
+
         .ai-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
-            gap: 1.5rem;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+            gap: 1.5rem; 
         }
-
-        /* Card Styling (Core Smoothness) */
+        
         .ai-card {
-            background-color: var(--card-dark);
-            border-radius: 0.75rem;
-            padding: 1.5rem;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
-            transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), border 0.4s ease; /* Optimized transition for "Flow" */
+            background: var(--card-dark); 
+            border-radius: 0.75rem; 
+            padding: 1.5rem; 
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2); 
+            border: 1px solid var(--border-color);
+            transition: transform 0.2s, box-shadow 0.2s;
+            min-height: 12rem;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            min-height: 12.5rem; 
-            border-left: 4px solid transparent; 
         }
+        
         .ai-card:hover {
-            transform: translateY(-0.75rem); /* Increased lift */
-            box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.7); /* Deeper, softer shadow on hover */
-            border-left-color: var(--primary-blue);
+            transform: translateY(-5px); 
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+        }
+        
+        .ai-card-content {
+            position: relative;
+            /* اطمینان از قرارگیری دکمه گزارش خطا در گوشه */
         }
         
         .ai-card h3 {
+            font-size: 1.1rem;
+            font-weight: 700;
             margin-top: 0;
             margin-bottom: 0.5rem;
-            font-size: 1.4rem;
-            color: #79bff8; /* Slightly lighter blue for contrast */
-            display: flex;
-            align-items: center;
-        }
-        .ai-card h3 span {
-            font-size: 1.2em;
-            margin-left: 0.5rem;
-            font-weight: bold;
+            color: var(--text-light);
+            padding-right: 25px; /* فضا برای دکمه گزارش خطا */
         }
         
         .ai-card p {
-            font-size: 0.95rem;
             color: var(--text-muted);
-            margin-bottom: 1rem;
-            font-weight: 500;
-        }
-
-        .ai-card a {
-            text-decoration: none;
-            display: block;
-            margin-top: auto;
+            font-size: 0.9rem;
         }
 
         .ai-button {
             width: 100%;
-            padding: 0.75rem;
+            padding: 0.9rem; 
             border: none;
-            border-radius: 0.5rem;
+            border-radius: 8px; 
             font-size: 1rem;
             font-weight: 700;
             cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.1s;
-            color: white;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+            transition: opacity 0.3s, background-color 0.3s;
+            margin-top: 1rem;
+            color: var(--bg-dark); 
         }
-        .ai-button:active {
-            transform: scale(0.98);
-        }
-
-        /* Specific Color Coding (Unchanged) */
-        .gemini-btn { background-color: #4285f4; } 
-        .gemini-btn:hover { background-color: #3b78e7; }
         
-        .openai-btn { background-color: #10a37f; } 
-        .openai-btn:hover { background-color: #0d8364; }
-        
-        .claude-btn { background-color: #ff5722; } 
-        .claude-btn:hover { background-color: #e64a19; }
-        
-        .mistral-btn { background-color: #7b1fa2; } 
-        .mistral-btn:hover { background-color: #6a1b9a; }
-        
-        .generic-btn { background-color: #546e7a; } 
-        .generic-btn:hover { background-color: #455a64; }
-
-        /* Footer/Disclaimer Style */
-        .disclaimer {
-            margin-top: 2rem;
-            padding: 1rem;
-            background-color: rgba(66, 133, 244, 0.1);
-            border-radius: 0.75rem;
-            border: 1px solid rgba(66, 133, 244, 0.3);
+        /* دکمه گزارش خطا */
+        .report-bug-btn {
+            position: absolute;
+            top: 0; 
+            right: 0; /* موقعیت دهی در گوشه راست و بالا */
+            background: none;
+            border: none;
+            cursor: pointer;
             color: var(--text-muted);
-            text-align: center;
-            font-size: 0.9rem;
+            transition: color 0.2s;
+            padding: 5px; 
+            z-index: 10;
         }
-        .disclaimer strong {
-            color: var(--accent-yellow);
-            font-weight: bold;
+        .report-bug-btn:hover {
+            color: var(--bug-color); /* قرمز هشدار دهنده */
+        }
+        .bug-icon {
+            width: 20px;
+            height: 20px;
+            stroke-width: 2;
+        }
+        
+        /* رنگ‌های مخصوص دکمه‌ها */
+        .gemini-btn { background-color: #f1c40f; } 
+        .openai-btn { background-color: #1abc9c; } 
+        .claude-btn { background-color: #e74c3c; } 
+        .mistral-btn { background-color: #9b59b6; } 
+        .generic-btn { background-color: #ccc; } 
+
+        /* --------------------------- */
+        /* iFrame و لودینگ اتصال */
+        /* --------------------------- */
+        .chat-iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            display: block;
+            background-color: white; 
+        }
+        
+        .loading-overlay {
+            position: absolute; 
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--bg-dark); 
+            display: none; 
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 50; 
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            color: white;
+            text-align: center;
+        }
+        
+        .loading-overlay.visible {
+            display: flex;
+            opacity: 1;
+        }
+        
+        .loader-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-bottom: 50px; 
         }
 
-        /* Mobile Responsiveness (Unchanged) */
-        @media (max-width: 48rem) { 
-            .header-title h2 {
-                font-size: 2.5rem;
-            }
-            .container {
-                padding: 1.5rem;
-            }
-            .ai-grid {
-                grid-template-columns: 1fr; 
-                gap: 1.25rem;
-            }
+        .app-brand {
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: var(--primary-accent); 
+            margin-bottom: 40px;
+            letter-spacing: 1px;
+            animation: fadeIn 0.8s ease-out;
         }
-        @media (max-width: 25rem) { 
-            .header-title h2 {
-                font-size: 2rem;
-            }
+
+        .spinner {
+            border: 5px solid rgba(255, 255, 255, 0.1); 
+            border-top: 5px solid var(--primary-accent); 
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s cubic-bezier(0.5, 0, 0.5, 1) infinite; 
+            margin-bottom: 25px;
         }
+        
+        .loading-text {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--text-light); 
+            margin-bottom: 8px;
+        }
+
+        .sub-text {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            opacity: 0.8;
+            animation: fadeIn 1.5s ease-out 0.5s forwards;
+            opacity: 0;
+        }
+        
+        /* انیمیشن‌ها */
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
     </style>
 </head>
 <body>
-    <div class="header-title">
-        <h2>NOCTOVEX</h2>
+    
+    <div class="app-header">
+        <button id="back-button" class="back-button">
+            <svg xmlns="http://www.w3.org/2000/svg" class="bug-icon" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 12l14 0" /><path d="M5 12l4 4" /><path d="M5 12l4 -4" /></svg>
+            برگشت
+        </button>
+        <div class="header-logo" id="header-title">NOCTOVEX Hub</div>
+        <div style="width: 80px;"></div> 
     </div>
-    <div class="container">
-        <h1>AI Hub | مرکز اتصال هوش مصنوعی</h1>
-        
-        <div class="info-box">
-            <strong>شفافیت و امنیت اطلاعات:</strong>
-            <p>
-                این پلتفرم شما را به طور مستقیم به سرویس‌های هوش مصنوعی متصل می‌کند. توجه داشته باشید که **ثبت نام یا ورود** به بعضی از این پلتفرم‌ها (مانند جیمیل) الزامی است و تمامی اطلاعات ثبت نام شما مستقیماً در **سایت رسمی و اصلی** همان سرویس هوش مصنوعی ثبت می‌شود و هیچ ارتباطی به سایت Noctovex ندارد.
+
+    <div class="page main-list-page" id="main-list-page">
+        <div class="container">
+            <h1>AI Hub | مرکز اتصال هوش مصنوعی</h1>
+            
+            <div class="info-box">
+                <strong>💡 توجه مهم:</strong>
+                <p>
+                    این برنامه صرفاً یک **موتور ناوبری پیشرفته** است که شما را به طور امن به سرویس‌های AI خارجی متصل می‌کند. تمامی فرآیندهای ورود (Login) و ثبت نام در **سایت اصلی سرویس** انجام می‌شود. ما هیچ داده‌ای از شما ذخیره نمی‌کنیم. 
+                </p>
+            </div>
+            
+            <p class="description">
+                با انتخاب هر سرویس، اتصال شما به صفحه چت آن برقرار خواهد شد. اگر در اتصال یا عملکرد هر سرویس مشکلی دیدید، دکمه گزارش خطا را فشار دهید.
             </p>
-        </div>
-        
-        <p class="description">
-            با افتخار از طرف تیم Noctovex، به قوی‌ترین ابزارهای چت جهان **متصل شوید**. با یک کلیک، اتصال شما به آن سرویس برقرار خواهد شد.
-        </p>
-        
-        <div class="ai-grid">
             
-            <div class="ai-card">
-                <div>
-                    <h3><span style="color: #4285f4;">✦</span> Gemini (Google)</h3>
-                    <p>
-                        هوش مصنوعی قدرتمند گوگل برای تحلیل، برنامه‌نویسی و جستجوی لحظه‌ای.
-                        <br>
-                        **نکته:** برای شروع چت و استفاده از قابلیت‌های اصلی نیاز به **ورود با حساب جیمیل** دارید.
-                    </p>
+            <div class="ai-grid">
+                
+                <div class="ai-card" data-url="https://gemini.google.com/">
+                    <div class="ai-card-content">
+                        <button class="report-bug-btn" data-ai-name="Gemini">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="bug-icon" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" /><path d="M12 9v4" /><path d="M12 16h.01" /></svg>
+                        </button>
+                        <h3><span style="color: #f1c40f;">✦</span> Gemini (Google)</h3>
+                        <p>هوش مصنوعی قدرتمند گوگل برای تحلیل، جستجوی لحظه‌ای و خلق ایده‌های نوآورانه.</p>
+                    </div>
+                    <button class="ai-button gemini-btn">شروع اتصال</button>
                 </div>
-                <a href="https://gemini.google.com/" target="_blank">
-                    <button class="ai-button gemini-btn">شروع اتصال به چت</button>
-                </a>
-            </div>
 
-            <div class="ai-card">
-                <div>
-                    <h3><span style="color: #10a37f;">★</span> ChatGPT (OpenAI)</h3>
-                    <p>
-                        پرچمدار هوش مصنوعی، بهترین برای تولید محتوای خلاقانه، داستان و مکالمات عمومی.
-                    </p>
+                <div class="ai-card" data-url="https://chat.openai.com/">
+                    <div class="ai-card-content">
+                        <button class="report-bug-btn" data-ai-name="ChatGPT">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="bug-icon" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" /><path d="M12 9v4" /><path d="M12 16h.01" /></svg>
+                        </button>
+                        <h3><span style="color: #1abc9c;">★</span> ChatGPT (OpenAI)</h3>
+                        <p>پرچمدار هوش مصنوعی، بهترین برای تولید محتوای خلاقانه، کدنویسی و پاسخ‌های عمومی.</p>
+                    </div>
+                    <button class="ai-button openai-btn">شروع اتصال</button>
                 </div>
-                <a href="https://chat.openai.com/" target="_blank">
-                    <button class="ai-button openai-btn">شروع اتصال به چت</button>
-                </a>
-            </div>
+                
+                <div class="ai-card" data-url="https://claude.ai/chats">
+                    <div class="ai-card-content">
+                         <button class="report-bug-btn" data-ai-name="Claude">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="bug-icon" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" /><path d="M12 9v4" /><path d="M12 16h.01" /></svg>
+                        </button>
+                        <h3><span style="color: #e74c3c;">🔥</span> Claude (Anthropic)</h3>
+                        <p>تخصص در امنیت، تجزیه و تحلیل اسناد بسیار طولانی و ایجاد محتوای انسان‌مانند.</p>
+                    </div>
+                    <button class="ai-button claude-btn">شروع اتصال</button>
+                </div>
+                
+                <div class="ai-card" data-url="https://www.perplexity.ai/">
+                    <div class="ai-card-content">
+                        <button class="report-bug-btn" data-ai-name="Perplexity">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="bug-icon" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" /><path d="M12 9v4" /><path d="M12 16h.01" /></svg>
+                        </button>
+                        <h3><span style="color: #c0c0c0;">🔎</span> Perplexity</h3>
+                        <p>موتور پاسخ‌دهنده متصل به اینترنت که پاسخ‌ها را به همراه منابع دقیق ارائه می‌دهد.</p>
+                    </div>
+                    <button class="ai-button generic-btn">شروع اتصال</button>
+                </div>
 
-            <div class="ai-card">
-                <div>
-                    <h3><span style="color: #ff5722;">🔥</span> Claude (Anthropic)</h3>
-                    <p>
-                        تخصص در امنیت و تجزیه و تحلیل اسناد بسیار طولانی. سریع و قابل اعتماد.
-                    </p>
+                <div class="ai-card" data-url="https://copilot.microsoft.com/">
+                    <div class="ai-card-content">
+                         <button class="report-bug-btn" data-ai-name="Copilot">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="bug-icon" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" /><path d="M12 9v4" /><path d="M12 16h.01" /></svg>
+                        </button>
+                        <h3><span style="color: #c0c0c0;">💻</span> Copilot (Microsoft)</h3>
+                        <p>ابزار هوش مصنوعی مایکروسافت، متصل به جستجوی Bing و با قابلیت تولید تصاویر.</p>
+                    </div>
+                    <button class="ai-button generic-btn">شروع اتصال</button>
                 </div>
-                <a href="https://claude.ai/chats" target="_blank">
-                    <button class="ai-button claude-btn">شروع اتصال به چت</button>
-                </a>
-            </div>
-            
-            <div class="ai-card">
-                <div>
-                    <h3><span style="color: #b0c4de;">🔎</span> Perplexity</h3>
-                    <p>
-                        هوش مصنوعی متصل به اینترنت که پاسخ‌ها را به همراه منابع و رفرنس‌های دقیق ارائه می‌دهد.
-                    </p>
+                
+                <div class="ai-card" data-url="https://pi.ai/talk">
+                    <div class="ai-card-content">
+                         <button class="report-bug-btn" data-ai-name="Pi">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="bug-icon" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" /><path d="M12 9v4" /><path d="M12 16h.01" /></svg>
+                        </button>
+                        <h3><span style="color: #c0c0c0;">💬</span> Pi (Hello Pi)</h3>
+                        <p>یک هوش مصنوعی مکالمه‌ای و حامی برای گفتگوهای صمیمانه و کمک‌های شخصی.</p>
+                    </div>
+                    <button class="ai-button generic-btn">شروع اتصال</button>
                 </div>
-                <a href="https://www.perplexity.ai/" target="_blank">
-                    <button class="ai-button generic-btn">شروع اتصال به چت</button>
-                </a>
-            </div>
 
-            <div class="ai-card">
-                <div>
-                    <h3><span style="color: #3498db;">💻</span> Copilot (Microsoft)</h3>
-                    <p>
-                        ابزار هوش مصنوعی مایکروسافت، متصل به جستجوی Bing و رایگان. از مدل‌های قدرتمند GPT بهره می‌برد.
-                    </p>
+                <div class="ai-card" data-url="https://llama.perplexity.ai/">
+                    <div class="ai-card-content">
+                         <button class="report-bug-btn" data-ai-name="Llama 3">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="bug-icon" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" /><path d="M12 9v4" /><path d="M12 16h.01" /></svg>
+                        </button>
+                        <h3><span style="color: #2ecc71;">🦙</span> Llama 3 (Meta)</h3>
+                        <p>مدل منبع باز قدرتمند شرکت متا، مناسب برای توسعه‌دهندگان و کاربران حرفه‌ای.</p>
+                    </div>
+                    <button class="ai-button generic-btn" style="background-color: #2ecc71 !important; color: #1a1a1a;">شروع اتصال</button>
                 </div>
-                <a href="https://copilot.microsoft.com/" target="_blank">
-                    <button class="ai-button generic-btn">شروع اتصال به چت</button>
-                </a>
-            </div>
-            
-            <div class="ai-card">
-                <div>
-                    <h3><span style="color: #7b1fa2;">💬</span> Pi (Hello Pi)</h3>
-                    <p>
-                        یک هوش مصنوعی مکالمه‌ای و حامی که برای گفتگوهای صمیمانه و پشتیبانی عاطفی طراحی شده.
-                    </p>
+
+                <div class="ai-card" data-url="https://poe.com/">
+                    <div class="ai-card-content">
+                         <button class="report-bug-btn" data-ai-name="Poe">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="bug-icon" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" /><path d="M12 9v4" /><path d="M12 16h.01" /></svg>
+                        </button>
+                        <h3><span style="color: #f39c12;">🎯</span> Poe (Quora)</h3>
+                        <p>پلتفرمی که چندین مدل AI (مثل GPT-4، Claude) را در یک جا تجمیع کرده است.</p>
+                    </div>
+                    <button class="ai-button generic-btn" style="background-color: #f39c12 !important; color: #1a1a1a;">شروع اتصال</button>
                 </div>
-                <a href="https://pi.ai/talk" target="_blank">
-                    <button class="ai-button generic-btn">شروع اتصال به چت</button>
-                </a>
-            </div>
 
-            <div class="ai-card">
-                <div>
-                    <h3><span style="color: #2ecc71;">🦙</span> Llama 3 (Meta)</h3>
-                    <p>
-                        مدل منبع باز قدرتمند شرکت متا. برای دسترسی از طریق پلتفرم‌های واسطه ارائه می‌شود.
-                    </p>
+                <div class="ai-card" data-url="https://you.com/chat">
+                    <div class="ai-card-content">
+                         <button class="report-bug-btn" data-ai-name="You.com">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="bug-icon" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" /><path d="M12 9v4" /><path d="M12 16h.01" /></svg>
+                        </button>
+                        <h3><span style="color: #1abc9c;">🚀</span> You.com</h3>
+                        <p>موتور جستجوی خصوصی با قابلیت چت و ابزارهای متنوع برای کاربران.</p>
+                    </div>
+                    <button class="ai-button generic-btn" style="background-color: #1abc9c !important; color: #1a1a1a;">شروع اتصال</button>
                 </div>
-                <a href="https://llama.perplexity.ai/" target="_blank">
-                    <button class="ai-button generic-btn" style="background-color: #2ecc71;">شروع اتصال به چت</button>
-                </a>
-            </div>
 
-            <div class="ai-card">
-                <div>
-                    <h3><span style="color: #f39c12;">🎯</span> Poe (Quora)</h3>
-                    <p>
-                        پلتفرمی که چندین مدل AI (مثل GPT، Claude و Gemini) را در یک رابط کاربری تجمیع کرده است.
-                    </p>
+                <div class="ai-card" data-url="https://chat.mistral.ai/">
+                    <div class="ai-card-content">
+                         <button class="report-bug-btn" data-ai-name="Mistral AI">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="bug-icon" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" /><path d="M12 9v4" /><path d="M12 16h.01" /></svg>
+                        </button>
+                        <h3><span style="color: #9b59b6;">⚡</span> Mistral AI</h3>
+                        <p>یکی از سریع‌ترین مدل‌ها برای برنامه‌نویسی و استدلال، با پاسخ‌های کوتاه و دقیق.</p>
+                    </div>
+                    <button class="ai-button mistral-btn">شروع اتصال</button>
                 </div>
-                <a href="https://poe.com/" target="_blank">
-                    <button class="ai-button generic-btn" style="background-color: #f39c12;">شروع اتصال به چت</button>
-                </a>
+
             </div>
-
-            <div class="ai-card">
-                <div>
-                    <h3><span style="color: #1abc9c;">🚀</span> You.com</h3>
-                    <p>
-                        موتور جستجوی خصوصی با قابلیت چت. برای خلاصه‌سازی جستجو و حفظ حریم خصوصی کاربران.
-                    </p>
-                </div>
-                <a href="https://you.com/chat" target="_blank">
-                    <button class="ai-button generic-btn" style="background-color: #1abc9c;">شروع اتصال به چت</button>
-                </a>
-            </div>
-
-            <div class="ai-card">
-                <div>
-                    <h3><span style="color: #e74c3c;">⚡</span> Mistral AI</h3>
-                    <p>
-                        یکی از سریع‌ترین و بهترین مدل‌ها برای برنامه‌نویسی و پاسخ‌های کوتاه و دقیق.
-                    </p>
-                </div>
-                <a href="https://chat.mistral.ai/" target="_blank">
-                    <button class="ai-button mistral-btn">شروع اتصال به چت</button>
-                </a>
-            </div>
-
-        </div>
-
-        <div class="disclaimer">
-            <p>
-                <strong>توجه:</strong> با کلیک، اتصال شما برقرار خواهد شد و صفحه چت باز می‌شود. به دلیل سرعت بارگذاری سرویس‌های خارجی و نیاز به ورود، **ممکن است بارگذاری اولیه صفحه چند ثانیه طول بکشد. لطفاً صبور باشید.**
-            </p>
         </div>
     </div>
+    
+    <div class="page chat-page" id="chat-page">
+        <div class="loading-overlay" id="loading-overlay">
+            <div class="loader-content">
+                <div class="app-brand">NOCTOVEX AI Hub</div>
+                <div class="spinner"></div>
+                <div class="loading-text" id="loading-main-text">در حال برقراری اتصال امن به سرویس...</div>
+                <div class="sub-text" id="loading-sub-text">لطفاً تا بارگذاری کامل صفحه سرویس AI صبر کنید.</div>
+            </div>
+        </div>
+        
+        <iframe id="chat-iframe" class="chat-iframe" sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-pointer-lock"></iframe>
+    </div>
+
+    <script>
+        const mainListPage = document.getElementById('main-list-page');
+        const chatPage = document.getElementById('chat-page');
+        const chatIframe = document.getElementById('chat-iframe');
+        const backButton = document.getElementById('back-button');
+        const headerTitle = document.getElementById('header-title');
+        const loadingOverlay = document.getElementById('loading-overlay'); 
+        const loadingMainText = document.getElementById('loading-main-text');
+        const loadingSubText = document.getElementById('loading-sub-text');
+        const aiCards = document.querySelectorAll('.ai-card');
+
+        const defaultTitle = 'NOCTOVEX Hub';
+        
+        function showMainList() {
+            mainListPage.classList.remove('page-active');
+            chatPage.classList.remove('page-active');
+            
+            headerTitle.textContent = defaultTitle;
+            backButton.classList.remove('visible');
+            
+            setTimeout(() => {
+                chatIframe.src = 'about:blank';
+            }, 500); 
+        }
+
+        function showChat(url, title) {
+            headerTitle.textContent = title;
+            backButton.classList.add('visible');
+            
+            // تنظیم متن لودینگ متناسب با سرویس
+            loadingMainText.textContent = `در حال اتصال به ${title}...`;
+            loadingSubText.textContent = 'این فرآیند ممکن است چند ثانیه طول بکشد. لطفاً شکیبا باشید.';
+
+            loadingOverlay.classList.add('visible');
+            
+            mainListPage.classList.add('page-active');
+            chatPage.classList.add('page-active');
+            
+            chatIframe.src = url;
+            
+            chatIframe.onload = () => {
+                setTimeout(() => {
+                    loadingOverlay.classList.remove('visible');
+                }, 400); 
+                chatIframe.onload = null;
+            };
+        }
+
+        // --- مدیریت دکمه‌های شروع چت ---
+        aiCards.forEach(card => {
+            const button = card.querySelector('.ai-button');
+            const url = card.getAttribute('data-url');
+            // استخراج نام AI بدون آیکون اولیه
+            const titleElement = card.querySelector('h3');
+            const fullTitle = titleElement.textContent.trim();
+            const title = fullTitle.substring(fullTitle.indexOf(' ') + 1); 
+
+            button.addEventListener('click', (e) => {
+                e.preventDefault();
+                showChat(url, title);
+            });
+        });
+        
+        // --- مدیریت دکمه‌های گزارش خطا (Mailto) ---
+        const bugButtons = document.querySelectorAll('.report-bug-btn');
+
+        bugButtons.forEach(button => {
+            button.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation(); // جلوگیری از فعال شدن ناوبری اصلی کارت
+                
+                const aiName = button.getAttribute('data-ai-name');
+                const emailAddress = 'noctovex@gmail.com';
+                const subject = `گزارش خطا در سرویس ${aiName} در برنامه NOCTOVEX AI Hub`;
+                const body = `توسعه‌دهنده گرامی،\n\nبنده با سرویس ${aiName} در برنامه AI Hub به مشکلی برخوردم.\n\nشرح مشکل:\n[لطفاً مشکل خود را اینجا شرح دهید]\n\nاطلاعات دستگاه (اختیاری):\nمدل دستگاه: [مثلاً: Samsung S21 / iPhone 14]\nنسخه اندروید/iOS: [مثلاً: Android 13]`;
+                
+                // ایجاد لینک mailto با محتوای کدگذاری شده
+                const mailtoLink = `mailto:${emailAddress}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+                
+                // باز کردن برنامه ایمیل کاربر
+                window.location.href = mailtoLink;
+            });
+        });
+
+
+        // شنونده رویداد برای دکمه برگشت
+        backButton.addEventListener('click', showMainList);
+        
+        // حالت اولیه
+        showMainList();
+    </script>
 </body>
 </html>
